@@ -4,8 +4,8 @@ import './App.css'
 const FOOD_OPTIONS = [
   { name: 'Italian', image: '/italianpic.jpg' },
   { name: 'Sushi', image: null },
-  { name: 'Tacos', image: null },
-  { name: 'Burgers', image: null },
+  { name: 'Mexican', image: '/mexicanfood.jpg' },
+  { name: 'American', image: '/americanfood.jpg' },
   { name: 'Ramen', image: null },
   { name: 'Curry', image: null },
   { name: 'BBQ', image: null },
