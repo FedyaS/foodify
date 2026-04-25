@@ -3,7 +3,7 @@ import './App.css'
 
 const FOOD_OPTIONS = [
   { name: 'Italian', image: '/italianpic.jpg' },
-  { name: 'Sushi', image: null },
+  { name: 'Japanese', image: '/japanesefood.jpg' },
   { name: 'Mexican', image: '/mexicanfood.jpg' },
   { name: 'American', image: '/americanfood.jpg' },
   { name: 'Ramen', image: null },
