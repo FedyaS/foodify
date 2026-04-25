@@ -1,13 +1,982 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+<!-- Design System -->
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#29322e",
+                        "surface-container-low": "#ecf6ee",
+                        "on-background": "#151d19",
+                        "on-primary-fixed": "#0b1f18",
+                        "primary": "#4e635a",
+                        "surface-bright": "#f2fcf4",
+                        "secondary-container": "#ff996e",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#b5ccc1",
+                        "outline": "#727875",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#374b43",
+                        "primary-fixed": "#d1e8dd",
+                        "surface-container-high": "#e1ebe3",
+                        "on-secondary": "#ffffff",
+                        "background": "#f2fcf4",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#263932",
+                        "on-tertiary-fixed-variant": "#51452d",
+                        "primary-container": "#8da399",
+                        "surface-tint": "#4e635a",
+                        "inverse-on-surface": "#e9f3ec",
+                        "surface": "#f2fcf4",
+                        "on-secondary-fixed": "#370e00",
+                        "surface-container-highest": "#dbe5de",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#79300e",
+                        "surface-variant": "#dbe5de",
+                        "secondary-fixed-dim": "#ffb598",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#151d19",
+                        "on-surface-variant": "#424845",
+                        "surface-container": "#e7f0e9",
+                        "tertiary-fixed-dim": "#d6c4a5",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d3dcd5",
+                        "on-tertiary-container": "#3f341d",
+                        "secondary-fixed": "#ffdbce",
+                        "on-tertiary-fixed": "#231a06",
+                        "on-secondary-container": "#772f0c",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#b5ccc1",
+                        "outline-variant": "#c2c8c4",
+                        "tertiary": "#6a5d43",
+                        "tertiary-fixed": "#f3e0c0",
+                        "tertiary-container": "#ac9c7f",
+                        "secondary": "#974723"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "24px",
+                        "stack-sm": "12px",
+                        "base": "8px",
+                        "gutter": "16px",
+                        "stack-md": "24px",
+                        "margin-desktop": "64px",
+                        "stack-lg": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Noto Serif"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Noto Serif"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-md": ["Noto Serif"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .check-filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        @media (min-width: 768px) {
+            .food-grid {
+                gap: 24px;
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
   </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- TopAppBar Shell (Hidden navigation for transactional screen) -->
+<header class="bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-[0_4px_20px_-4px_rgba(141,163,153,0.08)] docked full-width top-0 z-50 flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-700" data-icon="spa">spa</span>
+<span class="font-serif italic text-2xl text-emerald-800 dark:text-emerald-300">Foodify</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-outline" data-icon="close">close</span>
+</div>
+</header>
+<main class="flex-grow pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto w-full">
+<!-- Hero Header -->
+<section class="mb-stack-lg">
+<h1 class="font-headline-xl text-headline-xl text-on-background mb-base">Pick Your Cravings</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Tap foods that look good to you</p>
+</section>
+<!-- Selection Grid -->
+<section class="food-grid">
+<!-- Item 1 -->
+<div class="relative group cursor-pointer">
+<div class="aspect-square rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.05)] border-2 border-transparent hover:border-primary-container transition-all">
+<img alt="Fresh Salad" class="w-full h-full object-cover" data-alt="Close-up of a vibrant Mediterranean salad with arugula, chickpeas, and lemon zest in a ceramic bowl with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa4H1Z8ZpymyRxKc8rmU3VFZJLFQFw8DLH2FI-yc-gHOpc4QhrZ1A6zR1mEz_Xad8IEjx3EwXIJeojmNXMBU1-efSjz-G1EGb9Czf55F7Zmdqlo2N8MtoN2EaofpHmWI48LDbxDz6MwgWxVYUOAJnxKjpsd1Vrv3EJnG4P52Rkh7qaSKCuSWc7zGIstHlBTfiY0faV3vw7U4jUzPMyoXOBw-I4cIqKtV6vrtoEHCZrKHjVtrQOt0XE6tk2YhuPetzoOI_2lNgzx07a"/>
+</div>
+<div class="mt-base text-center">
+<span class="font-label-md text-label-md">Fresh Greens</span>
+</div>
+</div>
+<!-- Item 2 (Selected) -->
+<div class="relative group cursor-pointer">
+<div class="aspect-square rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.08)] border-[3px] border-primary transition-all">
+<img alt="Artisan Sourdough" class="w-full h-full object-cover" data-alt="Rustic artisan sourdough bread loaf with a crispy golden crust on a wooden board, warm bakery lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4icCRo13CDBRjnrvslSXGzYE2B09o2EulYKQ7IyiPv2J7FBVwHyfhmTGLDM3Qtvy_Y6BzT-PMZ22SFIzDgzykLtlIK9hK2_wK-h67NCuCG6PDV9ZikTygGuRq2kU5qrrMXz5RZvsutaAV3m5j4PYfYsfiLOyuCZ5hCqHr0s2pRF0_5JoircvwfUQ9yFs2-sWhH8zB4iZCc4jjZxWk2Oqp43QNkkqJlZHFbjkmtfYPgFppuBPUjMUVGweJa_G6Z7gljRPvpXTeL0sk"/>
+<div class="absolute top-2 right-2 bg-primary text-white rounded-full p-1 shadow-md">
+<span class="material-symbols-outlined text-[18px] block check-filled" data-icon="check" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<div class="mt-base text-center">
+<span class="font-label-md text-label-md text-primary">Bakery</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="relative group cursor-pointer">
+<div class="aspect-square rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.05)] border-2 border-transparent hover:border-primary-container transition-all">
+<img alt="Healthy Bowl" class="w-full h-full object-cover" data-alt="Overhead shot of a nourish bowl with quinoa, avocado, and roasted sweet potatoes, soft directional morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALCnu3ItqPjNibgEqnPT0I1s6rRpEKHAjsELn8mrlpZm6CFMwOOO4wbpkxVODwJBIIUe6WIv9wQ97ABMAEdkd9jh9ylHxJG3ZmamHiJB4yjwK2JCzSVIWG48hOBZ_AzrDsW-1Fel6oYQGdYzzcR7SPiUdq53ZuLgloZz9CwfYlnG8Z--AShX3puPLe0jDj9_QkWhWPjzcO0RAphjmgAFIPrMhQcKgI2AHY8XT0xurKNluZ_xNcH6TclrsSHaBf-gv0V6Cjsw3lyRLv"/>
+</div>
+<div class="mt-base text-center">
+<span class="font-label-md text-label-md">Bowls</span>
+</div>
+</div>
+<!-- Item 4 (Selected) -->
+<div class="relative group cursor-pointer">
+<div class="aspect-square rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.08)] border-[3px] border-primary transition-all">
+<img alt="Gourmet Breakfast" class="w-full h-full object-cover" data-alt="Minimalist plate of avocado toast with poached egg and microgreens on white linen tablecloth, bright airy atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ9bNjQhnpMTINObJ0dV8mqVfnOR6n2H_vHh-L6Pq-Fq7PmPkEAB5jApYqyTn4AvOvY74o4Bijm-QWT8N9y3gA5IqsWH_xvPIqZgPUcpd0V4DiPjtyMdqhXxLFzTrsEjQon0anFwJjX4g-YXTxyZfOprcjToFwzLus0uGHzqZMozVjSzwFmPIb-dGVohZLwPrY4yRvHdrGxi1Wj_gm2re3fPMTexLqZF7D4LGiRVjqdcQC-TPxetDKfB0SZN91Bp_f06D15mx2aYRS"/>
+<div class="absolute top-2 right-2 bg-primary text-white rounded-full p-1 shadow-md">
+<span class="material-symbols-outlined text-[18px] block check-filled" data-icon="check" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+</div>
+<div class="mt-base text-center">
+<span class="font-label-md text-label-md text-primary">Brunch</span>
+</div>
+</div>
+<!-- Item 5 -->
+<div class="relative group cursor-pointer">
+<div class="aspect-square rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.05)] border-2 border-transparent hover:border-primary-container transition-all">
+<img alt="Coffee Art" class="w-full h-full object-cover" data-alt="Close-up of latte art in a ceramic cup with a minimalist concrete background, moody cafe aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNF8I-TL0hUG8nUL6Vg6c8S8RKbifY-ezA9uyyk1vbaEg8rxMJYlyAZGNpIvR5cGEqH3Lw972GkxKBIGAkaiupxM5sSFsk-sgSVl7blOsPPBF565ZUm7OvgAP6CkW1tDYD6GgciV4syTsUw46MKLRN-vfEdpc_j3UQq2Rt6ewl633nM_8YM_ZFIUfmwMmaw0WcoAklMbxPhWVwn807ILupGPPWpAPZjGQZLsYnM-M4HkSr9Bl0l4yQP5c1mnZGOHhPSri9nSjnVyU7"/>
+</div>
+<div class="mt-base text-center">
+<span class="font-label-md text-label-md">Specialty Coffee</span>
+</div>
+</div>
+<!-- Item 6 -->
+<div class="relative group cursor-pointer">
+<div class="aspect-square rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.05)] border-2 border-transparent hover:border-primary-container transition-all">
+<img alt="Artisan Toast" class="w-full h-full object-cover" data-alt="A thick slice of toasted brioche with honey and sea salt on a marble surface, artisanal foodie style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4_w_7Xl5M7fOc2qAz5CbWvhE3Oq7Afi0yBv5mVRDvJlSrhMNRINvetuVRgywZp8d2Gox8Tow_z3CxMGx-7qYc5wvO5iptewzHGmXxcZIdqDLAqEowcHaaDdSd2n-2ULnMgfZ22Cx_OqmMKd0UTzvtOpuCY0lzXD-GuxjdwewmdN2pbyj23nK07l83URcfdUS0YhzH8VjD3gk35aKhhVxGpFc-7tk27i55g5VbaVynzfYyzTjM7wqeLiZm_Mq_BiRs5FX_Le4NWxJA"/>
+</div>
+<div class="mt-base text-center">
+<span class="font-label-md text-label-md">Sweets</span>
+</div>
+</div>
+<!-- Item 7 -->
+<div class="relative group cursor-pointer">
+<div class="aspect-square rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.05)] border-2 border-transparent hover:border-primary-container transition-all">
+<img alt="Pasta" class="w-full h-full object-cover" data-alt="Handmade tagliatelle with fresh pesto and cherry tomatoes in a minimalist white bowl, soft warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyc8lkkyoW-eKajmNM566cTGpVyDKyF4O50nhIqSfxdosnE8-Gv3iCVVAuPu_EbIFG3BkbbuAC0a8aDnbDKOrcnPeJTwyDY5Kvm_shYL60w2SZkhcz0vsIPQm-MZo2MwTSci-1FxbSOZR1idY1vtx_K-X-7aVV_uvvS0JswHf7XtRLPFTa80pl74Ttq2QleIkO9VPaRHHcvg81ngK0iTsqzuCiDXTDunPmnb9uAnIPgWNKtFDclXDRj91D3v6cu85FC77idO4Adwz7"/>
+</div>
+<div class="mt-base text-center">
+<span class="font-label-md text-label-md">Italian</span>
+</div>
+</div>
+<!-- Item 8 -->
+<div class="relative group cursor-pointer">
+<div class="aspect-square rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.05)] border-2 border-transparent hover:border-primary-container transition-all">
+<img alt="Grill" class="w-full h-full object-cover" data-alt="Artfully arranged grilled vegetables with balsamic glaze on a slate plate, outdoor bistro lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe4nOTmQ-vFmZE2MjloM_LBhu-1uelJwEZSWflxjyM79XV8dHMHn972qTrP6szKilV3u2fGBlHtpkmjbUi4dxaMs5U3VfnaIcVPTO-xVSC072TRQoyvl0Z2vYlzW_pbyy3R3Xw5g0kd_bZ3s-1Rq88oJrgIwqGfBx4FV5jF0lQoJyL34oiz5TBpZ_pRyM3q-5SNj5N03HMyEn_j0Zyk6VhJwK_pDJ3Pw1DbNKWIZa8cHmoGDZYt70BgdOw0VRABr95XiEdxwXkIM2m"/>
+</div>
+<div class="mt-base text-center">
+<span class="font-label-md text-label-md">Seasonal Grill</span>
+</div>
+</div>
+<!-- Item 9 -->
+<div class="relative group cursor-pointer">
+<div class="aspect-square rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.05)] border-2 border-transparent hover:border-primary-container transition-all">
+<img alt="Wine and Cheese" class="w-full h-full object-cover" data-alt="Curated cheese board with grapes and figs on a dark wood background, moody artisanal vibe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL25mc83VUPYFUK_VhjkiHKN9YUkQcDane6VxIIMd2CO4QU-qaCMQWBZNEcYbxRoT50dKRBcGpMUvcBHo2tWsr3wghQvCbailFwAUIirBTgyLgjKy9wUweADY4EQpYsgVcW6RsFfCa3QyO-hTDj02eOV_CmApDcua_rpJlQAF1-9d9-jRfvAeRVwOQ1sZbh3U58r9KRYjsUzhjoIOJEthpdmeLm7xWpX49OnyuQ_M0Pzu9wJfZkybIf3d9yQ_hFsgPnJpTAilvqc2M"/>
+</div>
+<div class="mt-base text-center">
+<span class="font-label-md text-label-md">Charcuterie</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Action Bar -->
+<footer class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-zinc-950/95 shadow-[0_-10px_40px_rgba(141,163,153,0.05)] px-6 py-6 z-50">
+<div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex flex-col gap-1 w-full md:w-auto">
+<div class="flex justify-between md:justify-start items-baseline gap-2">
+<span class="font-label-md text-label-md text-on-surface">2 of 4 picked</span>
+<span class="font-label-sm text-label-sm text-outline">Keep going!</span>
+</div>
+<!-- Progress Bar -->
+<div class="w-full md:w-48 h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="bg-primary h-full w-1/2 rounded-full transition-all duration-500"></div>
+</div>
+</div>
+<button class="w-full md:w-auto px-10 py-4 bg-primary text-white rounded-[16px] font-label-md shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
+                Next
+            </button>
+</div>
+</footer>
+</body></html>
+
+<!-- Pick Your Cravings (Hipster) -->
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-surface": "#29322e",
+            "surface-container-low": "#ecf6ee",
+            "on-background": "#151d19",
+            "on-primary-fixed": "#0b1f18",
+            "primary": "#4e635a",
+            "surface-bright": "#f2fcf4",
+            "secondary-container": "#ff996e",
+            "error": "#ba1a1a",
+            "primary-fixed-dim": "#b5ccc1",
+            "outline": "#727875",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#374b43",
+            "primary-fixed": "#d1e8dd",
+            "surface-container-high": "#e1ebe3",
+            "on-secondary": "#ffffff",
+            "background": "#f2fcf4",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-container": "#263932",
+            "on-tertiary-fixed-variant": "#51452d",
+            "primary-container": "#8da399",
+            "surface-tint": "#4e635a",
+            "inverse-on-surface": "#e9f3ec",
+            "surface": "#f2fcf4",
+            "on-secondary-fixed": "#370e00",
+            "surface-container-highest": "#dbe5de",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#79300e",
+            "surface-variant": "#dbe5de",
+            "secondary-fixed-dim": "#ffb598",
+            "on-tertiary": "#ffffff",
+            "on-surface": "#151d19",
+            "on-surface-variant": "#424845",
+            "surface-container": "#e7f0e9",
+            "tertiary-fixed-dim": "#d6c4a5",
+            "on-error-container": "#93000a",
+            "surface-dim": "#d3dcd5",
+            "on-tertiary-container": "#3f341d",
+            "secondary-fixed": "#ffdbce",
+            "on-tertiary-fixed": "#231a06",
+            "on-secondary-container": "#772f0c",
+            "error-container": "#ffdad6",
+            "inverse-primary": "#b5ccc1",
+            "outline-variant": "#c2c8c4",
+            "tertiary": "#6a5d43",
+            "tertiary-fixed": "#f3e0c0",
+            "tertiary-container": "#ac9c7f",
+            "secondary": "#974723"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "24px",
+            "stack-sm": "12px",
+            "base": "8px",
+            "gutter": "16px",
+            "stack-md": "24px",
+            "margin-desktop": "64px",
+            "stack-lg": "48px"
+          },
+          "fontFamily": {
+            "headline-xl": ["Noto Serif"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Noto Serif"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-md": ["Noto Serif"]
+          },
+          "fontSize": {
+            "headline-xl": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+            "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+            "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+            "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600"}],
+            "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+            "label-sm": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+            "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col overflow-hidden">
+<!-- Shell Suppressed for Transactional/Loading State -->
+<!-- Main Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center relative px-margin-mobile">
+<!-- Subtle Background Elements -->
+<div class="absolute inset-0 z-0 pointer-events-none opacity-40">
+<div class="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-primary-fixed blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-surface-container-high blur-[120px] rounded-full"></div>
+</div>
+<!-- Centered Content -->
+<div class="relative z-10 w-full max-w-md flex flex-col items-center">
+<!-- Minimalist Brand Header (Silent Anchor) -->
+<div class="mb-stack-lg opacity-60">
+<span class="font-headline-md italic text-primary tracking-tighter">Foodify</span>
+</div>
+<!-- Hero Visual: Minimalist Plate Concept -->
+<div class="relative w-48 h-48 mb-stack-lg">
+<!-- The Plate -->
+<div class="absolute inset-0 rounded-full border border-primary/20 bg-white/40 backdrop-blur-sm shadow-[0_10px_40px_rgba(141,163,153,0.1)]"></div>
+<!-- The Symbol -->
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-[64px] text-primary/40" data-icon="restaurant" style="font-variation-settings: 'wght' 200;">restaurant</span>
+</div>
+<!-- Floating Indicator (Scanning Effect) -->
+<div class="absolute inset-2 rounded-full border-t-2 border-primary/40 animate-[spin_4s_linear_infinite]"></div>
+</div>
+<!-- Narrative Text -->
+<div class="text-center space-y-stack-sm mb-stack-lg">
+<h1 class="font-headline-md text-on-surface">Finding Your Perfect Bite...</h1>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-center gap-2 text-primary">
+<span class="material-symbols-outlined text-[18px] animate-pulse" data-icon="auto_awesome">auto_awesome</span>
+<p class="font-label-md">Analyzing your taste...</p>
+</div>
+<div class="flex items-center justify-center gap-2 text-on-surface-variant opacity-70">
+<span class="material-symbols-outlined text-[18px]" data-icon="distance">distance</span>
+<p class="font-label-md">Scanning nearby restaurants...</p>
+</div>
+</div>
+</div>
+<!-- Journal Card Preview (Contextual Hint of What's Coming) -->
+<div class="w-full bg-white rounded-xl shadow-[0_20px_50px_rgba(141,163,153,0.08)] p-gutter flex gap-gutter items-center border border-surface-container-highest transition-all duration-700 opacity-0 translate-y-4" style="animation: fadeInUp 0.8s ease-out forwards 0.5s;">
+<div class="w-20 h-20 rounded-lg overflow-hidden bg-surface-container shrink-0">
+<img alt="A gourmet salad bowl" class="w-full h-full object-cover" data-alt="Top down view of a vibrant gourmet grain bowl with fresh avocado, radishes, and sesame seeds in a ceramic bowl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2hkJdS7MLVZcfeT4hQM8kN4yhP4lwZOGpYT8U05hgs7TJgzTNuB8CQp49JRO08IyKazdQPcZ8tjF0ZyBcIJSe6ZDH2oPkNXpzaGJsO4Vi_9r7K2rK7366cw1AxWB1M_vsC4U2OGTa4chqyoWRbSLzV8VFc_mhbdY6XyZzZgQoCiatVjI8vJmsLddgYYnWTk0Fgi0tMe3Cl0m_0byZs8noKqGBtT76VEs8ZLt11X90do3CiSWQz53ihlhcxaM5aKRxPmSQYnFsYZtb"/>
+</div>
+<div class="flex-grow">
+<div class="h-2 w-16 bg-surface-container-highest rounded-full mb-2"></div>
+<div class="h-4 w-32 bg-surface-container rounded-full mb-1"></div>
+<div class="h-3 w-24 bg-surface-container-low rounded-full"></div>
+</div>
+<div class="flex flex-col items-end gap-2">
+<div class="h-8 w-8 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[16px]" data-icon="favorite" data-weight="fill" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Progress Indicator (Laid-back) -->
+<div class="fixed bottom-12 left-0 right-0 px-margin-desktop">
+<div class="max-w-xs mx-auto">
+<div class="h-[2px] w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary/40 rounded-full w-1/3 animate-[progress_3s_ease-in-out_infinite]"></div>
+</div>
+<p class="mt-4 text-center font-label-sm text-on-surface-variant uppercase tracking-[0.2em] opacity-40">Curating for you</p>
+</div>
+</div>
+</main>
+<!-- Style Additions for Animation (Inline since JS is forbidden) -->
+<style>
+    @keyframes progress {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</body></html>
+
+<!-- Finding Your Bite (Hipster) -->
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-surface": "#29322e",
+            "surface-container-low": "#ecf6ee",
+            "on-background": "#151d19",
+            "on-primary-fixed": "#0b1f18",
+            "primary": "#4e635a",
+            "surface-bright": "#f2fcf4",
+            "secondary-container": "#ff996e",
+            "error": "#ba1a1a",
+            "primary-fixed-dim": "#b5ccc1",
+            "outline": "#727875",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#374b43",
+            "primary-fixed": "#d1e8dd",
+            "surface-container-high": "#e1ebe3",
+            "on-secondary": "#ffffff",
+            "background": "#f2fcf4",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-container": "#263932",
+            "on-tertiary-fixed-variant": "#51452d",
+            "primary-container": "#8da399",
+            "surface-tint": "#4e635a",
+            "inverse-on-surface": "#e9f3ec",
+            "surface": "#f2fcf4",
+            "on-secondary-fixed": "#370e00",
+            "surface-container-highest": "#dbe5de",
+            "on-primary": "#ffffff",
+            "on-secondary-fixed-variant": "#79300e",
+            "surface-variant": "#dbe5de",
+            "secondary-fixed-dim": "#ffb598",
+            "on-tertiary": "#ffffff",
+            "on-surface": "#151d19",
+            "on-surface-variant": "#424845",
+            "surface-container": "#e7f0e9",
+            "tertiary-fixed-dim": "#d6c4a5",
+            "on-error-container": "#93000a",
+            "surface-dim": "#d3dcd5",
+            "on-tertiary-container": "#3f341d",
+            "secondary-fixed": "#ffdbce",
+            "on-tertiary-fixed": "#231a06",
+            "on-secondary-container": "#772f0c",
+            "error-container": "#ffdad6",
+            "inverse-primary": "#b5ccc1",
+            "outline-variant": "#c2c8c4",
+            "tertiary": "#6a5d43",
+            "tertiary-fixed": "#f3e0c0",
+            "tertiary-container": "#ac9c7f",
+            "secondary": "#974723"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "24px",
+            "stack-sm": "12px",
+            "base": "8px",
+            "gutter": "16px",
+            "stack-md": "24px",
+            "margin-desktop": "64px",
+            "stack-lg": "48px"
+          },
+          "fontFamily": {
+            "headline-xl": ["Noto Serif"],
+            "body-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-lg": ["Noto Serif"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-md": ["Noto Serif"]
+          },
+          "fontSize": {
+            "headline-xl": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+            "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+            "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+            "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600"}],
+            "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+            "label-sm": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+            "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .pb-safe {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-fixed-dim">
+<!-- Top Navigation Shell -->
+<header class="bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-[0_4px_20px_-4px_rgba(141,163,153,0.08)] fixed top-0 z-50 flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-emerald-700 dark:text-emerald-400" data-icon="spa">spa</span>
+<h1 class="font-serif italic text-2xl text-emerald-800 dark:text-emerald-300">Foodify</h1>
+</div>
+<button class="material-symbols-outlined text-zinc-400 dark:text-zinc-500 hover:opacity-80 transition-opacity" data-icon="close">close</button>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile max-w-xl mx-auto min-h-screen">
+<!-- Hero Header -->
+<header class="mb-stack-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-background mb-base">Set Your Vibe</h2>
+<p class="font-body-md text-on-surface-variant">Tell us what you're in the mood for, and we'll curate the perfect experience.</p>
+</header>
+<form class="flex flex-col gap-stack-lg">
+<!-- Location Section -->
+<section class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-label-md text-primary tracking-wider uppercase">Current Location</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary/60" data-icon="location_on">location_on</span>
+<input class="w-full bg-white border border-primary/20 rounded-xl py-4 pl-12 pr-4 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-body-md text-on-surface shadow-sm" type="text" value="Portland, OR"/>
+</div>
+</section>
+<!-- Search Radius -->
+<section class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-label-md text-primary tracking-wider uppercase">Search Radius</label>
+<div class="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full border border-primary bg-primary text-white font-label-md transition-all shadow-md" type="button">1 mi</button>
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full border border-primary/20 bg-white text-on-surface hover:border-primary/40 font-label-md transition-all" type="button">5 mi</button>
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full border border-primary/20 bg-white text-on-surface hover:border-primary/40 font-label-md transition-all" type="button">10 mi</button>
+<button class="whitespace-nowrap px-6 py-2.5 rounded-full border border-primary/20 bg-white text-on-surface hover:border-primary/40 font-label-md transition-all" type="button">25 mi</button>
+</div>
+</section>
+<!-- Vibe Selection (Bento/Grid Chips) -->
+<section class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-label-md text-primary tracking-wider uppercase">Select Your Vibe</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-5 py-2.5 rounded-full bg-surface-container-high text-on-tertiary-container font-label-md hover:bg-tertiary-container hover:text-white transition-colors" type="button">Cozy</button>
+<button class="px-5 py-2.5 rounded-full bg-tertiary text-white font-label-md shadow-sm" type="button">Lively</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-high text-on-tertiary-container font-label-md hover:bg-tertiary-container transition-colors" type="button">Upscale</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-high text-on-tertiary-container font-label-md hover:bg-tertiary-container transition-colors" type="button">Rustic</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-high text-on-tertiary-container font-label-md hover:bg-tertiary-container transition-colors" type="button">Minimalist</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-high text-on-tertiary-container font-label-md hover:bg-tertiary-container transition-colors" type="button">Artisanal</button>
+</div>
+</section>
+<!-- Journal-style Featured Card (Contextual) -->
+<section class="my-4">
+<div class="bg-white rounded-[2rem] p-6 shadow-[0_20px_50px_rgba(141,163,153,0.1)] border border-surface-container-high overflow-hidden">
+<div class="flex gap-6 items-center">
+<div class="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="close-up of an artisan pastry and steaming coffee on a sage green ceramic plate in soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxQiPRbBXUodFk-ntogwxF4myNvjRv2tpwzzVZsN9VWGOxmv-se7o0i21AeGD81AxATU2BvvLaRkFae4xvbDAIKjpaImEWG6gl7PE73ELEtGl31G8xJvUtG-CG_yYjaGgNB4RcUgEJg0eHQqR9ThdK5orcR-qPvwKiDeplYWVeFi3v0QISPHJp3aGczht756LkQ2Z7qithqZkbL5O6NkzeZl910GZX0s2g7p5q2yZc5zrG0ruQ4nKZ6eq71xi5_kDunK31AbZcqp36"/>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary leading-tight">Chef's Choice</h4>
+<p class="font-body-md text-on-surface-variant text-sm mt-1">Lively vibes are currently trending in the Pearl District.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Food Restrictions -->
+<section class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-label-md text-primary tracking-wider uppercase">Food Restrictions</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border border-primary/10 rounded-xl py-4 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-body-md text-on-surface placeholder:text-zinc-400" placeholder="e.g. Gluten-free, Vegan, No Nuts..." type="text"/>
+</div>
+</section>
+<!-- Price Range -->
+<section class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-label-md text-primary tracking-wider uppercase">Price Range</label>
+<div class="grid grid-cols-2 gap-3">
+<button class="py-4 rounded-xl border border-primary/10 bg-white hover:bg-surface-container-low transition-colors font-label-md text-on-surface" type="button">$10 - $15</button>
+<button class="py-4 rounded-xl border border-primary bg-primary-fixed-dim/30 transition-colors font-label-md text-on-primary-container" type="button">$15 - $25</button>
+<button class="py-4 rounded-xl border border-primary/10 bg-white hover:bg-surface-container-low transition-colors font-label-md text-on-surface" type="button">$25 - $50</button>
+<button class="py-4 rounded-xl border border-primary/10 bg-white hover:bg-surface-container-low transition-colors font-label-md text-on-surface" type="button">$50+</button>
+</div>
+</section>
+<!-- Special Requests -->
+<section class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-label-md text-primary tracking-wider uppercase">Special Requests</label>
+<textarea class="w-full bg-surface-container-lowest border border-primary/10 rounded-xl py-4 px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-body-md text-on-surface placeholder:text-zinc-400 resize-none" placeholder="Window seating, quiet corner, dog friendly..." rows="3"></textarea>
+</section>
+</form>
+</main>
+<!-- Sticky Bottom CTA Section -->
+<footer class="fixed bottom-0 left-0 right-0 p-margin-mobile bg-gradient-to-t from-surface via-surface/90 to-transparent z-50">
+<div class="max-w-xl mx-auto pb-safe">
+<button class="w-full bg-primary hover:bg-primary-container text-white font-label-md text-lg py-5 rounded-2xl shadow-[0_10px_30px_rgba(78,99,90,0.3)] active:scale-[0.98] transition-all flex items-center justify-center gap-3">
+        Find My Food
+        <span class="material-symbols-outlined" data-icon="restaurant">restaurant</span>
+</button>
+</div>
+</footer>
+<!-- Desktop Sidebar / Top Nav Logic Replacement -->
+<nav class="hidden md:flex fixed top-0 left-0 bottom-0 w-64 bg-white/95 dark:bg-zinc-950/95 border-r border-zinc-100 flex-col px-6 py-10 z-[60]">
+<div class="flex items-center gap-3 mb-12">
+<span class="material-symbols-outlined text-emerald-800" data-icon="spa">spa</span>
+<h1 class="font-serif italic text-2xl text-emerald-800">Foodify</h1>
+</div>
+<div class="flex flex-col gap-6">
+<a class="flex items-center gap-4 text-zinc-400 hover:text-emerald-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="local_library">local_library</span>
+<span class="font-serif text-lg">Discover</span>
+</a>
+<a class="flex items-center gap-4 text-emerald-800 font-semibold transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-serif text-lg">Search</span>
+</a>
+<a class="flex items-center gap-4 text-zinc-400 hover:text-emerald-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="favorite_border">favorite_border</span>
+<span class="font-serif text-lg">Saved</span>
+</a>
+<a class="flex items-center gap-4 text-zinc-400 hover:text-emerald-800 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person_outline">person_outline</span>
+<span class="font-serif text-lg">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>
+
+<!-- Set Your Vibe (Hipster) -->
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#29322e",
+                    "surface-container-low": "#ecf6ee",
+                    "on-background": "#151d19",
+                    "on-primary-fixed": "#0b1f18",
+                    "primary": "#4e635a",
+                    "surface-bright": "#f2fcf4",
+                    "secondary-container": "#ff996e",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#b5ccc1",
+                    "outline": "#727875",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#374b43",
+                    "primary-fixed": "#d1e8dd",
+                    "surface-container-high": "#e1ebe3",
+                    "on-secondary": "#ffffff",
+                    "background": "#f2fcf4",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#263932",
+                    "on-tertiary-fixed-variant": "#51452d",
+                    "primary-container": "#8da399",
+                    "surface-tint": "#4e635a",
+                    "inverse-on-surface": "#e9f3ec",
+                    "surface": "#f2fcf4",
+                    "on-secondary-fixed": "#370e00",
+                    "surface-container-highest": "#dbe5de",
+                    "on-primary": "#ffffff",
+                    "on-secondary-fixed-variant": "#79300e",
+                    "surface-variant": "#dbe5de",
+                    "secondary-fixed-dim": "#ffb598",
+                    "on-tertiary": "#ffffff",
+                    "on-surface": "#151d19",
+                    "on-surface-variant": "#424845",
+                    "surface-container": "#e7f0e9",
+                    "tertiary-fixed-dim": "#d6c4a5",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#d3dcd5",
+                    "on-tertiary-container": "#3f341d",
+                    "secondary-fixed": "#ffdbce",
+                    "on-tertiary-fixed": "#231a06",
+                    "on-secondary-container": "#772f0c",
+                    "error-container": "#ffdad6",
+                    "inverse-primary": "#b5ccc1",
+                    "outline-variant": "#c2c8c4",
+                    "tertiary": "#6a5d43",
+                    "tertiary-fixed": "#f3e0c0",
+                    "tertiary-container": "#ac9c7f",
+                    "secondary": "#974723"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "24px",
+                    "stack-sm": "12px",
+                    "base": "8px",
+                    "gutter": "16px",
+                    "stack-md": "24px",
+                    "margin-desktop": "64px",
+                    "stack-lg": "48px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Noto Serif"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Noto Serif"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-md": ["Noto Serif"]
+            },
+            "fontSize": {
+                    "headline-xl": ["40px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body-md text-on-background selection:bg-primary-fixed">
+<!-- TopAppBar -->
+<header class="bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md font-serif tracking-tight text-lg shadow-[0_4px_20px_-4px_rgba(141,163,153,0.08)] border-none fixed top-0 z-50 flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-700 dark:text-emerald-400" data-icon="spa">spa</span>
+<span class="font-serif italic text-2xl text-emerald-800 dark:text-emerald-300">Foodify</span>
+</div>
+<div class="flex gap-4">
+<button class="text-zinc-400 dark:text-zinc-500 hover:opacity-80 transition-opacity active:scale-95 duration-300 ease-out">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-margin-mobile max-w-xl mx-auto">
+<!-- Screen Header -->
+<div class="mb-stack-lg">
+<h1 class="font-headline-xl text-headline-xl text-on-background mb-base">Your Matches</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Curated artisan experiences aligned with your palette.</p>
+</div>
+<!-- Vertical List of Restaurant Cards -->
+<div class="flex flex-col gap-stack-lg">
+<!-- Restaurant Card 1 -->
+<article class="bg-surface-container-lowest rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.05)] transition-transform active:scale-[0.98] duration-300">
+<div class="relative h-56 w-full overflow-hidden">
+<img alt="Artisan bakery interior" class="w-full h-full object-cover" data-alt="Softly lit artisan bakery interior with wooden shelves, warm natural light, and freshly baked sourdough loaves on a marble counter" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0bMyRFguL_rTYpt7PXlWjYG5pJhLH4Kj8hetlKPtkk2_8W_G1n4fmWqd4Kcx3Ru8TS4gUOW68hl_qA8US136mu655sY9eqpUNDsIqk9FlSsOfNDv3dRk8psTFRrca-DP4nzil2qM1j8zCW3battHTvWj2GoZu1Vk6A4hxf6PZpM_IVQ-i5Nw5iybwn69yuODrltfQSZtvQ-e3-EA4fU_OkyLEU6DXJ8PLhpoOtCzT-wuf2aK80QWILcO378e64TDJnq5fJ4rtbSiX"/>
+<div class="absolute top-4 right-4 bg-primary-container text-on-primary-container h-14 w-14 rounded-full flex flex-col items-center justify-center border-2 border-white shadow-lg">
+<span class="text-[14px] font-bold leading-none">97</span>
+<span class="text-[10px] uppercase tracking-tighter font-semibold">Match</span>
+</div>
+</div>
+<div class="p-stack-md">
+<div class="flex justify-between items-start mb-base">
+<h2 class="font-headline-md text-headline-md text-on-background">Flour &amp; Hearth</h2>
+<div class="flex gap-1">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full font-label-sm text-label-sm">Bakery</span>
+</div>
+</div>
+<div class="flex items-center gap-4 mb-stack-sm text-on-surface-variant font-label-md text-label-md">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+<span>0.8 mi</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="payments">payments</span>
+<span>$$</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="schedule">schedule</span>
+<span>15-20 min</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mb-stack-sm">
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm">Quiet Vibe</span>
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm">Artisan Bread</span>
+</div>
+<div class="flex items-center gap-2 mb-base">
+<span class="material-symbols-outlined text-emerald-700 text-[18px]" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="font-label-md text-label-md text-on-surface-variant">Vegan options available</p>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic mb-stack-sm leading-relaxed">
+                        "Traditional slow-fermentation methods meet modern coastal flavors in this sun-drenched neighborhood corner."
+                    </p>
+<a class="inline-flex items-center text-primary font-label-md text-label-md hover:opacity-70 transition-opacity" href="#">
+                        View Menu <span class="material-symbols-outlined ml-1" data-icon="arrow_right_alt">arrow_right_alt</span>
+</a>
+</div>
+</article>
+<!-- Restaurant Card 2 -->
+<article class="bg-surface-container-lowest rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.05)] transition-transform active:scale-[0.98] duration-300">
+<div class="relative h-56 w-full overflow-hidden">
+<img alt="Japanese minimal cafe" class="w-full h-full object-cover" data-alt="Minimalist Japanese cafe with light wood furniture, a single ceramic vase with a branch, and soft daylight from a large window" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBi4ryOOfViYRVKwdJlxpKTKx6VhskcHEi5X3ctj4xbiAdbR5pofLTGqnp-fIAyxEpblewEK9w7yieq6vJcMsAcW2Zs3zxAFhetOJQ_uHA23n-Bl3_ZLMPhCmquitrWd8-sOO6kW22R8nNdYOkPKPak9X1FBdbAgc-70jmFAgaDlP9WP3ilaUPI4eF8K7MYyW5ftYLOC9mnZpZeO06UohBFIXl6PI26ENAdQbqVi6KzCpDVGRKbCh70Pm0Q0ouQHpgr8vA_crPflFE"/>
+<div class="absolute top-4 right-4 bg-primary-container text-on-primary-container h-14 w-14 rounded-full flex flex-col items-center justify-center border-2 border-white shadow-lg">
+<span class="text-[14px] font-bold leading-none">94</span>
+<span class="text-[10px] uppercase tracking-tighter font-semibold">Match</span>
+</div>
+</div>
+<div class="p-stack-md">
+<div class="flex justify-between items-start mb-base">
+<h2 class="font-headline-md text-headline-md text-on-background">Komorebi Sushi</h2>
+<div class="flex gap-1">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full font-label-sm text-label-sm">Japanese</span>
+</div>
+</div>
+<div class="flex items-center gap-4 mb-stack-sm text-on-surface-variant font-label-md text-label-md">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+<span>1.2 mi</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="payments">payments</span>
+<span>$$$</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="schedule">schedule</span>
+<span>30-45 min</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mb-stack-sm">
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm">Minimalist</span>
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm">Omakase</span>
+</div>
+<div class="flex items-center gap-2 mb-base">
+<span class="material-symbols-outlined text-emerald-700 text-[18px]" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="font-label-md text-label-md text-on-surface-variant">Vegan options available</p>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic mb-stack-sm leading-relaxed">
+                        "Precision and poetry on a plate. Experience the sunlight filtering through leaves while you dine."
+                    </p>
+<a class="inline-flex items-center text-primary font-label-md text-label-md hover:opacity-70 transition-opacity" href="#">
+                        View Menu <span class="material-symbols-outlined ml-1" data-icon="arrow_right_alt">arrow_right_alt</span>
+</a>
+</div>
+</article>
+<!-- Restaurant Card 3 -->
+<article class="bg-surface-container-lowest rounded-[16px] overflow-hidden shadow-[0_20px_40px_rgba(141,163,153,0.05)] transition-transform active:scale-[0.98] duration-300">
+<div class="relative h-56 w-full overflow-hidden">
+<img alt="Rustic herb garden restaurant" class="w-full h-full object-cover" data-alt="Rustic outdoor patio dining area surrounded by lush green herbs and potted plants under a pergola with hanging vines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_RdlM7yRA1R4hvvYrbUaGX0n-ZHTPwbP3nAsiCVKX4F6kmIuma1t0joljxYt4GpOzKvAv-N8pRNU5C_JsYdIr4nd3g05_BGTItFENz9xqJFxRlmHw8QAILfiIkjZ7LCkk7bj3ynDnlWNp_tpTIgrLQWY_55dnZb8xElSuqtUIaeovVqtypbkNjA4HKqWxdDumaLualixfJTGiiNwurpUcG7IFywXR_CJMJ0eqEiHr11Bt2-VjNuy718zfD0Y7mrJ4ZVrXMRNqhddQ"/>
+<div class="absolute top-4 right-4 bg-primary-container text-on-primary-container h-14 w-14 rounded-full flex flex-col items-center justify-center border-2 border-white shadow-lg">
+<span class="text-[14px] font-bold leading-none">89</span>
+<span class="text-[10px] uppercase tracking-tighter font-semibold">Match</span>
+</div>
+</div>
+<div class="p-stack-md">
+<div class="flex justify-between items-start mb-base">
+<h2 class="font-headline-md text-headline-md text-on-background">Sage &amp; Thyme</h2>
+<div class="flex gap-1">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full font-label-sm text-label-sm">Farm-to-Table</span>
+</div>
+</div>
+<div class="flex items-center gap-4 mb-stack-sm text-on-surface-variant font-label-md text-label-md">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span>
+<span>2.5 mi</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="payments">payments</span>
+<span>$$</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" data-icon="schedule">schedule</span>
+<span>25-35 min</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mb-stack-sm">
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm">Garden Table</span>
+<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm">Organic</span>
+</div>
+<div class="flex items-center gap-2 mb-base">
+<span class="material-symbols-outlined text-emerald-700 text-[18px]" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<p class="font-label-md text-label-md text-on-surface-variant">Vegan options available</p>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic mb-stack-sm leading-relaxed">
+                        "A celebration of seasonal bounty, where every ingredient is harvested at its peak and served with intention."
+                    </p>
+<a class="inline-flex items-center text-primary font-label-md text-label-md hover:opacity-70 transition-opacity" href="#">
+                        View Menu <span class="material-symbols-outlined ml-1" data-icon="arrow_right_alt">arrow_right_alt</span>
+</a>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full h-20 px-8 flex justify-between items-center z-50 pb-safe bg-white/95 dark:bg-zinc-950/95 border-t border-zinc-100 dark:border-zinc-900 shadow-[0_-10px_40px_rgba(141,163,153,0.05)] rounded-t-[32px]">
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-600 hover:text-emerald-600 dark:hover:text-emerald-200 transition-transform active:translate-y-[-2px] duration-500" href="#">
+<span class="material-symbols-outlined" data-icon="local_library">local_library</span>
+<span class="font-serif text-[11px] tracking-wide">Discover</span>
+</a>
+<a class="flex flex-col items-center justify-center text-emerald-800 dark:text-emerald-300 font-semibold transition-transform active:translate-y-[-2px] duration-500" href="#">
+<span class="material-symbols-outlined" data-icon="search" data-weight="fill" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-serif text-[11px] tracking-wide">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-600 hover:text-emerald-600 dark:hover:text-emerald-200 transition-transform active:translate-y-[-2px] duration-500" href="#">
+<span class="material-symbols-outlined" data-icon="favorite_border">favorite_border</span>
+<span class="font-serif text-[11px] tracking-wide">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-600 hover:text-emerald-600 dark:hover:text-emerald-200 transition-transform active:translate-y-[-2px] duration-500" href="#">
+<span class="material-symbols-outlined" data-icon="person_outline">person_outline</span>
+<span class="font-serif text-[11px] tracking-wide">Profile</span>
+</a>
+</nav>
+</body></html>
