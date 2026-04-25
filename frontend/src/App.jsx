@@ -2,15 +2,15 @@ import { useState, useEffect } from 'react'
 import './App.css'
 
 const FOOD_OPTIONS = [
-  { name: 'Italian', image: '/italianpic.jpg' },
-  { name: 'Japanese', image: '/japanesefood.jpg' },
+  { name: 'Italian', image: '/italianfood.jpg' },
   { name: 'Mexican', image: '/mexicanfood.jpg' },
+  { name: 'Chinese', image: '/chinesefood.jpg' },
+  { name: 'Japanese', image: '/japanesefood.jpg' },
+  { name: 'Indian', image: '/indianfood.jpg' },
   { name: 'American', image: '/americanfood.jpg' },
-  { name: 'Ramen', image: null },
-  { name: 'Curry', image: null },
-  { name: 'BBQ', image: null },
-  { name: 'Thai', image: null },
-  { name: 'Brunch', image: null },
+  { name: 'Vietnamese', image: '/vietnamesefood.jpg' },
+  { name: 'Thai', image: '/thaifood.jpg' },
+  { name: 'French', image: '/frenchfood.jpg' },
 ]
 
 const VIBE_OPTIONS = ['Cozy', 'Lively', 'Upscale', 'Authentic', 'Hidden Gem']
