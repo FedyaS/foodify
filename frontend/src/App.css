@@ -62,10 +62,11 @@ body {
 }
 
 .food-box {
+  position: relative;
   aspect-ratio: 1;
   background: var(--card);
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,19 +77,77 @@ body {
   transition: all 0.2s;
   user-select: none;
   text-align: center;
-  padding: 0.5rem;
+  overflow: hidden;
 }
 
 .food-box:hover {
   border-color: var(--accent);
   color: var(--text);
+  transform: scale(1.03);
 }
 
 .food-box.selected {
   border-color: var(--accent);
+  box-shadow: 0 0 16px rgba(255, 107, 53, 0.3);
+}
+
+.food-box.selected:not(.has-image) {
   background: rgba(255, 107, 53, 0.15);
   color: var(--accent);
   font-weight: 600;
+}
+
+/* Image food boxes */
+.food-box.has-image .food-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s, filter 0.3s;
+}
+
+.food-box.has-image:hover .food-img {
+  transform: scale(1.08);
+}
+
+.food-box.has-image.selected .food-img {
+  filter: brightness(0.65);
+}
+
+.food-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.5rem 0.25rem;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.food-box.has-image.selected .food-label::after {
+  content: "\2713";
+  display: block;
+  position: absolute;
+  top: -1.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.6rem;
+  height: 1.6rem;
+  line-height: 1.6rem;
+  text-align: center;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* Placeholder food boxes */
+.food-placeholder {
+  padding: 0.5rem;
 }
 
 .pick-count {
@@ -248,30 +307,182 @@ body {
 
 /* Results */
 .results-section h2 {
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  margin-bottom: 1.25rem;
 }
 
-.json-output {
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.restaurant-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 1rem;
-  overflow-x: auto;
-  font-family: 'Fira Code', 'Consolas', monospace;
-  font-size: 0.8rem;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: var(--green);
-  max-height: 70vh;
-  overflow-y: auto;
+  border-radius: 16px;
+  padding: 1.25rem;
+  transition: border-color 0.25s, box-shadow 0.25s;
 }
 
+.restaurant-card:hover {
+  border-color: #444;
+  box-shadow: 0 4px 24px rgba(255, 107, 53, 0.08);
+}
+
+/* Card header: name + score */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-title-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem;
+  color: var(--text);
+}
+
+/* Circular match badge */
+.match-badge {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255, 107, 53, 0.12);
+  border: 2px solid var(--accent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.match-number {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.match-label {
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+/* Cuisine tags */
+.cuisine-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.cuisine-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+/* Info row: distance, price, hours */
+.card-info-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.info-icon {
+  font-size: 0.85rem;
+}
+
+/* Vibe chips */
+.vibe-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+}
+
+.vibe-chip {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  background: rgba(255, 107, 53, 0.08);
+  color: var(--accent);
+}
+
+/* Dietary note */
+.dietary-note {
+  font-size: 0.8rem;
+  color: var(--green);
+  margin: 0 0 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.dietary-note::before {
+  content: "\2705";
+  font-size: 0.85rem;
+}
+
+/* Why you'll love it */
+.love-it {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #bbb;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Menu link */
+.menu-link {
+  display: inline-block;
+  margin-top: 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.menu-link:hover {
+  opacity: 0.75;
+}
+
+/* Error */
 .error-box {
   background: rgba(255, 50, 50, 0.1);
   border: 1px solid #ff3232;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 1rem;
   color: #ff6b6b;
+  font-size: 0.9rem;
 }
