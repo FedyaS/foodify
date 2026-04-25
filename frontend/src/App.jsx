@@ -120,13 +120,13 @@ function App() {
       </div>
 
       {step === 0 && (
-        <section className="w-full max-w-4xl mx-auto px-4 py-6">
+        <section className="w-full max-w-3xl mx-auto px-4 py-6">
           <div className="mb-8">
             <h2 className="text-3xl font-semibold mb-2">Pick Your Cravings</h2>
             <p className="subtitle">Tap foods that look good to you</p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {FOOD_OPTIONS.map(({ name, image }) => {
               const selected = foodPicks.includes(name)
               return (
@@ -134,11 +134,11 @@ function App() {
                   key={name}
                   type="button"
                   onClick={() => toggleFood(name)}
-                  className={`relative text-left rounded-2xl overflow-hidden border-2 transition-all ${
+                  className={`relative w-full max-w-[180px] mx-auto text-left rounded-2xl overflow-hidden border-2 transition-all ${
                     selected ? 'border-primary shadow-lg' : 'border-transparent hover:border-primary-container'
                   }`}
                 >
-                  <div className="aspect-square overflow-hidden">
+                  <div className="h-28 md:h-32 overflow-hidden">
                     <img src={image} alt={name} className="w-full h-full object-cover" />
                   </div>
 
