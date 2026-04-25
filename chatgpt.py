@@ -1,3 +1,4 @@
+# Run these commands to install the dependencies:
 # python -m pip install python-dotenv
 # python -m pip install openai
 
