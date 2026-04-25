@@ -1,18 +1,19 @@
 :root {
-  --bg: #0a0a0a;
-  --card: #1a1a1a;
-  --accent: #ff6b35;
-  --accent-hover: #e55a28;
-  --green: #4caf50;
-  --text: #f0f0f0;
-  --muted: #888;
-  --border: #333;
+  --bg: #F8F5EF;
+  --card: #FFFFFF;
+  --accent: #5C7C61;
+  --accent-hover: #4A6A4F;
+  --accent-light: #8DA599;
+  --green: #5C7C61;
+  --text: #2F3632;
+  --muted: #7D796F;
+  --border: #DDD9D0;
 }
 
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   min-height: 100vh;
 }
 
@@ -23,15 +24,17 @@ body {
 }
 
 .app h1 {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--accent);
   margin-bottom: 0.25rem;
+  letter-spacing: 0.02em;
 }
 
 .app .subtitle {
   color: var(--muted);
   margin-bottom: 2rem;
+  font-size: 0.95rem;
 }
 
 /* Step indicator */
@@ -81,18 +84,18 @@ body {
 }
 
 .food-box:hover {
-  border-color: var(--accent);
+  border-color: var(--accent-light);
   color: var(--text);
   transform: scale(1.03);
 }
 
 .food-box.selected {
   border-color: var(--accent);
-  box-shadow: 0 0 16px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 0 16px rgba(92, 124, 97, 0.2);
 }
 
 .food-box.selected:not(.has-image) {
-  background: rgba(255, 107, 53, 0.15);
+  background: rgba(92, 124, 97, 0.1);
   color: var(--accent);
   font-weight: 600;
 }
@@ -111,7 +114,7 @@ body {
 }
 
 .food-box.has-image.selected .food-img {
-  filter: brightness(0.65);
+  filter: brightness(0.6);
 }
 
 .food-label {
@@ -120,7 +123,7 @@ body {
   left: 0;
   right: 0;
   padding: 0.5rem 0.25rem;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
   color: #fff;
   font-size: 0.8rem;
   font-weight: 600;
@@ -168,25 +171,33 @@ body {
 
 .form-section label {
   display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--muted);
+  letter-spacing: 0.1em;
+  color: var(--text);
   margin-bottom: 0.5rem;
 }
 
 .form-section input,
 .form-section textarea {
   width: 100%;
+  box-sizing: border-box;
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.65rem 0.85rem;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 0.85rem;
   color: var(--text);
   font-size: 0.95rem;
+  font-family: inherit;
   outline: none;
   transition: border-color 0.2s;
+}
+
+.form-section input::placeholder,
+.form-section textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
 }
 
 .form-section input:focus,
@@ -207,26 +218,26 @@ body {
 }
 
 .chip {
-  padding: 0.45rem 0.9rem;
+  padding: 0.5rem 1rem;
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 24px;
   font-size: 0.85rem;
-  color: var(--muted);
+  font-weight: 500;
+  color: var(--text);
   cursor: pointer;
   transition: all 0.2s;
   user-select: none;
 }
 
 .chip:hover {
-  border-color: var(--accent);
-  color: var(--text);
+  border-color: var(--accent-light);
 }
 
 .chip.selected {
   border-color: var(--accent);
-  background: rgba(255, 107, 53, 0.15);
-  color: var(--accent);
+  background: var(--accent);
+  color: #fff;
   font-weight: 600;
 }
 
@@ -237,9 +248,10 @@ body {
   background: var(--accent);
   color: #fff;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 1rem;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
   transition: background 0.2s;
   margin-top: 1rem;
@@ -256,11 +268,12 @@ body {
 
 .btn-back {
   background: none;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   color: var(--muted);
   padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 0.85rem;
+  font-family: inherit;
   cursor: pointer;
   margin-top: 0.75rem;
   transition: all 0.2s;
@@ -309,6 +322,7 @@ body {
 .results-section h2 {
   font-size: 1.4rem;
   margin-bottom: 1.25rem;
+  color: var(--text);
 }
 
 .card-list {
@@ -319,15 +333,15 @@ body {
 
 .restaurant-card {
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: 16px;
   padding: 1.25rem;
   transition: border-color 0.25s, box-shadow 0.25s;
 }
 
 .restaurant-card:hover {
-  border-color: #444;
-  box-shadow: 0 4px 24px rgba(255, 107, 53, 0.08);
+  border-color: var(--accent-light);
+  box-shadow: 0 4px 24px rgba(92, 124, 97, 0.08);
 }
 
 /* Card header: name + score */
@@ -357,7 +371,7 @@ body {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: rgba(255, 107, 53, 0.12);
+  background: rgba(92, 124, 97, 0.1);
   border: 2px solid var(--accent);
   display: flex;
   flex-direction: column;
@@ -393,8 +407,8 @@ body {
   font-weight: 600;
   padding: 0.2rem 0.55rem;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--muted);
+  background: rgba(141, 165, 153, 0.15);
+  color: var(--accent);
   letter-spacing: 0.02em;
 }
 
@@ -405,7 +419,7 @@ body {
   gap: 0.75rem;
   margin-bottom: 0.7rem;
   padding-bottom: 0.7rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border);
 }
 
 .info-item {
@@ -433,15 +447,15 @@ body {
   font-weight: 600;
   padding: 0.25rem 0.65rem;
   border-radius: 20px;
-  border: 1px solid rgba(255, 107, 53, 0.3);
-  background: rgba(255, 107, 53, 0.08);
+  border: 1px solid rgba(92, 124, 97, 0.3);
+  background: rgba(92, 124, 97, 0.08);
   color: var(--accent);
 }
 
 /* Dietary note */
 .dietary-note {
   font-size: 0.8rem;
-  color: var(--green);
+  color: var(--accent);
   margin: 0 0 0.6rem;
   display: flex;
   align-items: center;
@@ -457,7 +471,7 @@ body {
 .love-it {
   font-size: 0.85rem;
   font-style: italic;
-  color: #bbb;
+  color: var(--muted);
   line-height: 1.5;
   margin: 0;
 }
@@ -492,8 +506,8 @@ body {
   flex-shrink: 0;
   width: 42px;
   height: 42px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
   background: var(--card);
   color: var(--accent);
   font-size: 1.1rem;
@@ -506,7 +520,7 @@ body {
 
 .btn-locate:hover:not(:disabled) {
   border-color: var(--accent);
-  background: rgba(255, 107, 53, 0.1);
+  background: rgba(92, 124, 97, 0.06);
 }
 
 .btn-locate:disabled {
@@ -547,13 +561,13 @@ body {
   gap: 0.25rem;
   padding: 0.3rem 0.6rem;
   border-radius: 6px;
-  background: rgba(255, 107, 53, 0.08);
-  border: 1px solid rgba(255, 107, 53, 0.2);
+  background: rgba(92, 124, 97, 0.08);
+  border: 1px solid rgba(92, 124, 97, 0.2);
   transition: background 0.2s, border-color 0.2s;
 }
 
 .card-link:hover {
-  background: rgba(255, 107, 53, 0.15);
+  background: rgba(92, 124, 97, 0.15);
   border-color: var(--accent);
 }
 
@@ -589,10 +603,10 @@ body {
 
 /* Error */
 .error-box {
-  background: rgba(255, 50, 50, 0.1);
-  border: 1px solid #ff3232;
+  background: rgba(192, 43, 51, 0.06);
+  border: 1px solid #C02B33;
   border-radius: 12px;
   padding: 1rem;
-  color: #ff6b6b;
+  color: #C02B33;
   font-size: 0.9rem;
 }
