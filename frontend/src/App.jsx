@@ -2,10 +2,15 @@ import { useState, useEffect } from 'react'
 import './App.css'
 
 const FOOD_OPTIONS = [
-  'Pizza', 'Sushi', 'Tacos', 'Burgers', 'Pasta',
-  'Ramen', 'Curry', 'Pho', 'BBQ', 'Salad',
-  'Dim Sum', 'Steak', 'Seafood', 'Brunch', 'Thai',
-  'Mediterranean', 'Korean', 'Ethiopian',
+  { name: 'Italian', image: '/italianpic.jpg' },
+  { name: 'Sushi', image: null },
+  { name: 'Tacos', image: null },
+  { name: 'Burgers', image: null },
+  { name: 'Ramen', image: null },
+  { name: 'Curry', image: null },
+  { name: 'BBQ', image: null },
+  { name: 'Thai', image: null },
+  { name: 'Brunch', image: null },
 ]
 
 const VIBE_OPTIONS = ['Cozy', 'Lively', 'Upscale', 'Authentic', 'Hidden Gem']
@@ -44,12 +49,12 @@ function App() {
     return () => clearInterval(interval)
   }, [loading])
 
-  function toggleFood(food) {
+  function toggleFood(name) {
     setFoodPicks((prev) =>
-      prev.includes(food)
-        ? prev.filter((f) => f !== food)
+      prev.includes(name)
+        ? prev.filter((f) => f !== name)
         : prev.length < 4
-          ? [...prev, food]
+          ? [...prev, name]
           : prev
     )
   }
@@ -118,13 +123,20 @@ function App() {
         <>
           <p className="subtitle">Tap foods that sound good to you</p>
           <div className="food-grid">
-            {FOOD_OPTIONS.map((food) => (
+            {FOOD_OPTIONS.map(({ name, image }) => (
               <div
-                key={food}
-                className={`food-box ${foodPicks.includes(food) ? 'selected' : ''}`}
-                onClick={() => toggleFood(food)}
+                key={name}
+                className={`food-box ${foodPicks.includes(name) ? 'selected' : ''} ${image ? 'has-image' : ''}`}
+                onClick={() => toggleFood(name)}
               >
-                {food}
+                {image ? (
+                  <>
+                    <img src={image} alt={name} className="food-img" />
+                    <span className="food-label">{name}</span>
+                  </>
+                ) : (
+                  <span className="food-placeholder">{name}</span>
+                )}
               </div>
             ))}
           </div>
@@ -235,13 +247,67 @@ function App() {
 
       {step === 3 && (
         <div className="results-section">
-          <h2>Results</h2>
+          <h2>Your Matches</h2>
           {error ? (
             <div className="error-box">{error}</div>
           ) : (
-            <pre className="json-output">
-              {JSON.stringify(result, null, 2)}
-            </pre>
+            <div className="card-list">
+              {result?.restaurants?.map((r, i) => (
+                <div className="restaurant-card" key={i}>
+                  <div className="card-header">
+                    <div className="card-title-area">
+                      <h3 className="card-name">{r.name}</h3>
+                      <div className="cuisine-tags">
+                        {r.cuisine_tags?.map((tag) => (
+                          <span className="cuisine-tag" key={tag}>{tag}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="match-badge">
+                      <span className="match-number">{r.match_score}</span>
+                      <span className="match-label">match</span>
+                    </div>
+                  </div>
+
+                  <div className="card-info-row">
+                    <span className="info-item">
+                      <span className="info-icon">&#x1F4CD;</span> {r.distance}
+                    </span>
+                    <span className="info-item">
+                      <span className="info-icon">&#x1F4B0;</span> {r.price_range}
+                    </span>
+                    <span className="info-item">
+                      <span className="info-icon">&#x1F553;</span> {r.hours}
+                    </span>
+                  </div>
+
+                  {r.vibe_tags?.length > 0 && (
+                    <div className="vibe-row">
+                      {r.vibe_tags.map((v) => (
+                        <span className="vibe-chip" key={v}>{v}</span>
+                      ))}
+                    </div>
+                  )}
+
+                  {r.dietary_note && (
+                    <p className="dietary-note">{r.dietary_note}</p>
+                  )}
+
+                  <p className="love-it">{r.why_youll_love_it}</p>
+
+                  {r.menu_url && (
+                    <a
+                      className="menu-link"
+                      href={r.menu_url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View Menu &rarr;
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
           )}
           <button className="btn-next" onClick={handleReset}>
             Start Over
