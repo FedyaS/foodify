@@ -477,6 +477,116 @@ body {
   opacity: 0.75;
 }
 
+/* Location input row */
+.location-input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.location-input-row input {
+  flex: 1;
+}
+
+.btn-locate {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--accent);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.btn-locate:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: rgba(255, 107, 53, 0.1);
+}
+
+.btn-locate:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.locate-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.geo-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* Card links row (maps, directions) */
+.card-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.7rem;
+}
+
+.card-link {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  background: rgba(255, 107, 53, 0.08);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.card-link:hover {
+  background: rgba(255, 107, 53, 0.15);
+  border-color: var(--accent);
+}
+
+/* Map container */
+.map-container {
+  margin-bottom: 1.25rem;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.map-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Numbered marker on card */
+.card-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
 /* Error */
 .error-box {
   background: rgba(255, 50, 50, 0.1);

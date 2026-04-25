@@ -42,10 +42,57 @@ function App() {
   const [priceRange, setPriceRange] = useState('')
   const [specialRequests, setSpecialRequests] = useState('')
 
+  const [userCoords, setUserCoords] = useState(null)
+  const [geoLoading, setGeoLoading] = useState(false)
+
   const [loading, setLoading] = useState(false)
   const [loadingMsg, setLoadingMsg] = useState(0)
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
+
+  function handleUseMyLocation() {
+    if (!navigator.geolocation) {
+      console.error('Geolocation API not available in this browser')
+      return
+    }
+    setGeoLoading(true)
+    try {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          try {
+            setUserCoords({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            })
+            setLocation('Current Location')
+          } catch (err) {
+            console.error('Error processing geolocation result:', err)
+          } finally {
+            setGeoLoading(false)
+          }
+        },
+        (err) => {
+          console.error('Geolocation request failed:', err.message)
+          setGeoLoading(false)
+        },
+        { timeout: 10000, maximumAge: 300000 }
+      )
+    } catch (err) {
+      console.error('Geolocation unexpected error:', err)
+      setGeoLoading(false)
+    }
+  }
+
+  function getMapsUrl(r) {
+    try {
+      if (r.maps_url) return r.maps_url
+      const query = r.address ? `${r.name}, ${r.address}` : `${r.name}, ${location}`
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+    } catch (err) {
+      console.error('Error building Maps URL:', err)
+      return '#'
+    }
+  }
 
   useEffect(() => {
     if (!loading) return
@@ -79,20 +126,24 @@ function App() {
     setResult(null)
 
     try {
+      const payload = {
+        food_picks: foodPicks,
+        location,
+        radius,
+        vibes,
+        restrictions,
+        price_range: priceRange,
+        special_requests: specialRequests,
+        user_coords: userCoords,
+      }
+      console.log('[Foodify] Sending request:', { location, userCoords })
       const res = await fetch(`${API_URL}/api/recommendations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          food_picks: foodPicks,
-          location,
-          radius,
-          vibes,
-          restrictions,
-          price_range: priceRange,
-          special_requests: specialRequests,
-        }),
+        body: JSON.stringify(payload),
       })
       const data = await res.json()
+      console.log('[Foodify] API response:', JSON.stringify(data, null, 2))
       if (!res.ok) throw new Error(data.error || 'Request failed')
       setResult(data)
       setStep(3)
@@ -113,6 +164,8 @@ function App() {
     setSpecialRequests('')
     setResult(null)
     setError(null)
+    setUserCoords(null)
+    setLocation('Portland, OR')
   }
 
   return (
@@ -165,11 +218,29 @@ function App() {
 
           <div className="form-section">
             <label>Location</label>
-            <input
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="Portland, OR"
-            />
+            <div className="location-input-row">
+              <input
+                value={location}
+                onChange={(e) => {
+                  setLocation(e.target.value)
+                  if (userCoords) setUserCoords(null)
+                }}
+                placeholder="Portland, OR"
+              />
+              <button
+                type="button"
+                className="btn-locate"
+                onClick={handleUseMyLocation}
+                disabled={geoLoading}
+                title="Use my current location"
+              >
+                {geoLoading ? (
+                  <span className="geo-spinner" />
+                ) : (
+                  <span className="locate-icon">&#x1F4CD;</span>
+                )}
+              </button>
+            </div>
           </div>
 
           <div className="form-section">
@@ -257,12 +328,29 @@ function App() {
           {error ? (
             <div className="error-box">{error}</div>
           ) : (
+            <>
+            {result?.map_image_url && (
+              <div className="map-container">
+                <img
+                  src={result.map_image_url}
+                  alt="Map of restaurant locations"
+                  className="map-image"
+                  onError={(e) => {
+                    console.error('Static map image failed to load')
+                    e.target.style.display = 'none'
+                  }}
+                />
+              </div>
+            )}
             <div className="card-list">
               {result?.restaurants?.map((r, i) => (
                 <div className="restaurant-card" key={i}>
                   <div className="card-header">
                     <div className="card-title-area">
-                      <h3 className="card-name">{r.name}</h3>
+                      <h3 className="card-name">
+                        <span className="card-number">{i + 1}</span>
+                        {r.name}
+                      </h3>
                       <div className="cuisine-tags">
                         {r.cuisine_tags?.map((tag) => (
                           <span className="cuisine-tag" key={tag}>{tag}</span>
@@ -276,15 +364,47 @@ function App() {
                   </div>
 
                   <div className="card-info-row">
-                    <span className="info-item">
-                      <span className="info-icon">&#x1F4CD;</span> {r.distance}
-                    </span>
-                    <span className="info-item">
-                      <span className="info-icon">&#x1F4B0;</span> {r.price_range}
-                    </span>
-                    <span className="info-item">
-                      <span className="info-icon">&#x1F553;</span> {r.hours}
-                    </span>
+                    {r.distance_text != null && (
+                      <span className="info-item">
+                        <span className="info-icon">&#x1F4CD;</span> {r.distance_text}
+                      </span>
+                    )}
+                    {r.drive_time != null && (
+                      <span className="info-item">
+                        <span className="info-icon">&#x1F697;</span> {r.drive_time}
+                      </span>
+                    )}
+                    {r.walk_time != null && (
+                      <span className="info-item">
+                        <span className="info-icon">&#x1F6B6;</span> {r.walk_time}
+                      </span>
+                    )}
+                    {r.distance_text == null && r.distance && (
+                      <span className="info-item">
+                        <span className="info-icon">&#x1F4CD;</span> {r.distance}
+                      </span>
+                    )}
+                    {r.price_range && (
+                      <span className="info-item">
+                        <span className="info-icon">&#x1F4B0;</span> {r.price_range}
+                      </span>
+                    )}
+                    {r.hours && (
+                      <span className="info-item">
+                        <span className="info-icon">&#x1F553;</span> {r.hours}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="card-links-row">
+                    <a
+                      className="card-link"
+                      href={getMapsUrl(r)}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      &#x1F5FA;&#xFE0F; View on Map
+                    </a>
                   </div>
 
                   {r.vibe_tags?.length > 0 && (
@@ -314,6 +434,7 @@ function App() {
                 </div>
               ))}
             </div>
+            </>
           )}
           <button className="btn-next" onClick={handleReset}>
             Start Over
