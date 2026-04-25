@@ -4,19 +4,13 @@ import './App.css'
 const FOOD_OPTIONS = [
   { name: 'Italian', image: '/italianfood.jpg' },
   { name: 'Mexican', image: '/mexicanfood.jpg' },
-  { name: 'Japanese', image: '/japanesefood.jpg' },
-  { name: 'American', image: '/americanfood.jpg' },
-  { name: 'Brazilian', image: '/brazilfood.jpg' },
   { name: 'Chinese', image: '/chinesefood.jpg' },
-  { name: 'French', image: '/frenchfood.jpg' },
-  { name: 'Greek', image: '/greekfood.jpg' },
+  { name: 'Japanese', image: '/japanesefood.jpg' },
   { name: 'Indian', image: '/indianfood.jpg' },
-  { name: 'Korean', image: '/koreanfood.jpg' },
-  { name: 'Middle Eastern', image: '/middleeasternfood.jpg' },
-  { name: 'Spanish', image: '/spanishfood.jpg' },
-  { name: 'Thai', image: '/thaifood.jpg' },
-  { name: 'Turkish', image: '/turkishfood.jpg' },
+  { name: 'American', image: '/americanfood.jpg' },
   { name: 'Vietnamese', image: '/vietnamesefood.jpg' },
+  { name: 'Thai', image: '/thaifood.jpg' },
+  { name: 'French', image: '/frenchfood.jpg' },
 ]
 
 const VIBE_OPTIONS = ['Cozy', 'Lively', 'Upscale', 'Authentic', 'Hidden Gem']
@@ -126,37 +120,55 @@ function App() {
       </div>
 
       {step === 0 && (
-        <>
-          <p className="subtitle">Tap foods that sound good to you</p>
-          <div className="food-grid">
-            {FOOD_OPTIONS.map(({ name, image }) => (
-              <div
-                key={name}
-                className={`food-box ${foodPicks.includes(name) ? 'selected' : ''} ${image ? 'has-image' : ''}`}
-                onClick={() => toggleFood(name)}
-              >
-                {image ? (
-                  <>
-                    <img src={image} alt={name} className="food-img" />
-                    <span className="food-label">{name}</span>
-                  </>
-                ) : (
-                  <span className="food-placeholder">{name}</span>
-                )}
-              </div>
-            ))}
+        <section className="w-full max-w-4xl mx-auto px-4 py-6">
+          <div className="mb-8">
+            <h2 className="text-3xl font-semibold mb-2">Pick Your Cravings</h2>
+            <p className="subtitle">Tap foods that look good to you</p>
           </div>
-          <p className="pick-count">
-            <span>{foodPicks.length}</span> of 4 picked
-          </p>
-          <button
-            className="btn-next"
-            disabled={foodPicks.length === 0}
-            onClick={() => setStep(1)}
-          >
-            Next
-          </button>
-        </>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+            {FOOD_OPTIONS.map(({ name, image }) => {
+              const selected = foodPicks.includes(name)
+              return (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => toggleFood(name)}
+                  className={`relative text-left rounded-2xl overflow-hidden border-2 transition-all ${
+                    selected ? 'border-primary shadow-lg' : 'border-transparent hover:border-primary-container'
+                  }`}
+                >
+                  <div className="aspect-square overflow-hidden">
+                    <img src={image} alt={name} className="w-full h-full object-cover" />
+                  </div>
+
+                  {selected && (
+                    <span className="absolute top-2 right-2 bg-primary text-white rounded-full w-7 h-7 grid place-items-center text-sm">
+                      ✓
+                    </span>
+                  )}
+
+                  <div className="px-3 py-2 text-center bg-white/90">
+                    <span className={`font-medium ${selected ? 'text-primary' : ''}`}>{name}</span>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+
+          <div className="mt-6">
+            <p className="pick-count mb-4">
+              <span>{foodPicks.length}</span> of 4 picked
+            </p>
+            <button
+              className="btn-next"
+              disabled={foodPicks.length === 0}
+              onClick={() => setStep(1)}
+            >
+              Next
+            </button>
+          </div>
+        </section>
       )}
 
       {step === 1 && (
