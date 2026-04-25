@@ -4,13 +4,19 @@ import './App.css'
 const FOOD_OPTIONS = [
   { name: 'Italian', image: '/italianfood.jpg' },
   { name: 'Mexican', image: '/mexicanfood.jpg' },
-  { name: 'Chinese', image: '/chinesefood.jpg' },
   { name: 'Japanese', image: '/japanesefood.jpg' },
-  { name: 'Indian', image: '/indianfood.jpg' },
   { name: 'American', image: '/americanfood.jpg' },
-  { name: 'Vietnamese', image: '/vietnamesefood.jpg' },
-  { name: 'Thai', image: '/thaifood.jpg' },
+  { name: 'Brazilian', image: '/brazilfood.jpg' },
+  { name: 'Chinese', image: '/chinesefood.jpg' },
   { name: 'French', image: '/frenchfood.jpg' },
+  { name: 'Greek', image: '/greekfood.jpg' },
+  { name: 'Indian', image: '/indianfood.jpg' },
+  { name: 'Korean', image: '/koreanfood.jpg' },
+  { name: 'Middle Eastern', image: '/middleeasternfood.jpg' },
+  { name: 'Spanish', image: '/spanishfood.jpg' },
+  { name: 'Thai', image: '/thaifood.jpg' },
+  { name: 'Turkish', image: '/turkishfood.jpg' },
+  { name: 'Vietnamese', image: '/vietnamesefood.jpg' },
 ]
 
 const VIBE_OPTIONS = ['Cozy', 'Lively', 'Upscale', 'Authentic', 'Hidden Gem']
